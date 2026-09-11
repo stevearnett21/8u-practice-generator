@@ -1,34 +1,159 @@
-[
-  {
-    "id": "fld-rapid-fire-01",
-    "title": "Two-Line Rapid Fire",
-    "category": "fielding",
-    "location": ["outdoor", "indoor_turf"],
-    "grouping": "whole_team",
-    "minCoaches": 2,
-    "supervisionLevel": "coach_mandatory",
-    "durationMins": 15,
-    "equipment": ["bucket of baseballs", "2 fungo bats", "2 target nets"],
-    "setup": "Split team into two parallel lines (SS and 2B). Both coaches stand near home plate.",
-    "execution": "Coach 1 hits a grounder to SS. The second it hits the glove, Coach 2 hits to 2B. Fielder throws to target net and hustles to the back of the opposite line.",
-    "focus": "High reps, rapid transitions.",
-    "cultureCue": "Hustle standard. Praise the kids who sprint to the back of the opposite line, not just the ones who make a good throw. Effort is the baseline.",
-    "diagram": "/assets/diagrams/rapid-fire.svg"
-  },
-  {
-    "id": "hit-front-toss-net",
-    "title": "Heavy Ball Front Toss",
-    "category": "hitting",
-    "location": ["outdoor", "indoor_cage", "indoor_turf"],
-    "grouping": "station",
-    "minCoaches": 1,
-    "supervisionLevel": "parent_capable",
-    "durationMins": 8,
-    "equipment": ["L-screen", "weighted hitting balls", "batting helmets"],
-    "setup": "L-screen 15 feet from home plate. Batter in box, one on deck, rest behind fence.",
-    "execution": "Feeder tosses weighted balls to front hip. Rotate every 10 swings.",
-    "focus": "Staying through the baseball without rolling over.",
-    "cultureCue": "Active listening. The player on deck must watch the batter and listen to the coach's feedback so they don't make the same mistake.",
-    "diagram": "/assets/diagrams/front-toss-cage.svg"
-  }
-]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>8U Practice Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ensures the background stays gray but the app looks like a phone screen on desktop */
+        body { background-color: #f3f4f6; }
+        .app-container { min-height: 100vh; background-color: white; max-width: 480px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.05); position: relative; }
+        
+        /* Cleans up the UI when exported to PDF or printed */
+        @media print {
+            .no-print { display: none !important; }
+            .app-container { box-shadow: none; max-width: 100%; }
+            .print-break { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans antialiased pb-20">
+
+    <div class="app-container">
+        
+        <!-- ========================================== -->
+        <!-- SCREEN 1: SETUP INTERFACE                  -->
+        <!-- ========================================== -->
+        <div id="setup-screen" class="p-6 pt-12">
+            <header class="text-center mb-10">
+                <div class="text-5xl mb-3">⚾</div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">8U Practice</h1>
+                <p class="text-slate-500 mt-2 font-medium">Zero-idle-time generator.</p>
+            </header>
+
+            <div class="space-y-8">
+                <!-- Duration Selector -->
+                <div>
+                    <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">Duration</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button class="py-3 bg-blue-600 text-white rounded-xl font-bold shadow-md ring-2 ring-blue-600 ring-offset-1">60m</button>
+                        <button class="py-3 bg-slate-50 text-slate-600 rounded-xl font-bold border-2 border-slate-200">75m</button>
+                        <button class="py-3 bg-slate-50 text-slate-600 rounded-xl font-bold border-2 border-slate-200">90m</button>
+                    </div>
+                </div>
+
+                <!-- Location Selector -->
+                <div>
+                    <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">Location</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="py-3 bg-blue-600 text-white rounded-xl font-bold shadow-md ring-2 ring-blue-600 ring-offset-1">Outdoor Field</button>
+                        <button class="py-3 bg-slate-50 text-slate-600 rounded-xl font-bold border-2 border-slate-200">Indoor</button>
+                    </div>
+                </div>
+
+                <!-- Coach Count Selector -->
+                <div>
+                    <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">Coaches Available</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button class="py-3 bg-blue-600 text-white rounded-xl font-bold shadow-md ring-2 ring-blue-600 ring-offset-1">2</button>
+                        <button class="py-3 bg-slate-50 text-slate-600 rounded-xl font-bold border-2 border-slate-200">3</button>
+                        <button class="py-3 bg-slate-50 text-slate-600 rounded-xl font-bold border-2 border-slate-200">4+</button>
+                    </div>
+                </div>
+
+                <!-- Generate Button (Inline JS for demo transition) -->
+                <button onclick="document.getElementById('setup-screen').classList.add('hidden'); document.getElementById('dugout-card').classList.remove('hidden');" class="w-full mt-4 bg-slate-900 hover:bg-black text-white text-lg font-black py-5 rounded-2xl shadow-xl transition-all active:scale-95">
+                    GENERATE PLAN
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- SCREEN 2: THE DUGOUT CARD                  -->
+        <!-- ========================================== -->
+        <div id="dugout-card" class="hidden pb-24">
+            
+            <!-- Sticky Timer Header -->
+            <div class="sticky top-0 z-40 bg-slate-900 text-white px-5 py-3 shadow-lg flex justify-between items-center no-print">
+                <div>
+                    <span class="text-[10px] text-slate-400 block uppercase tracking-widest font-bold">Total Time</span>
+                    <span class="text-xl font-mono font-bold">59:59</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-[10px] text-blue-400 block uppercase tracking-widest font-bold">Station Timer</span>
+                    <span class="text-3xl font-mono font-black text-blue-400 leading-none">07:59</span>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="flex justify-between items-center px-5 py-4 bg-slate-100 border-b border-slate-200">
+                <h2 class="font-black text-slate-700">Outdoor • 2 Coaches</h2>
+                <div class="space-x-2 no-print flex">
+                    <button class="text-sm bg-white border border-slate-300 text-slate-600 font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center">📤 Share</button>
+                    <button class="text-sm bg-white border border-slate-300 text-slate-600 font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center">🖨️ PDF</button>
+                </div>
+            </div>
+
+            <!-- Practice Blocks Container -->
+            <div class="p-4 space-y-5">
+                
+                <!-- Block 1: Warmup -->
+                <div class="border-2 border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm print-break">
+                    <div class="bg-slate-100 px-4 py-2 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-black text-slate-700 tracking-tight">1. Dynamic Warmup</span>
+                        <span class="text-xs font-black text-slate-400 bg-slate-200 px-2 py-1 rounded">8 MIN</span>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-black text-lg text-slate-900 leading-tight">Follow the Leader Sprints</h3>
+                            <button class="no-print text-xs bg-slate-50 text-slate-500 font-bold px-2 py-1 rounded border border-slate-200 hover:bg-slate-100 transition-colors flex items-center">👁️ Diagram</button>
+                        </div>
+                        <p class="text-sm text-slate-600"><span class="font-bold text-slate-800">Setup:</span> Single file line behind coach on foul line.</p>
+                        <p class="text-sm text-slate-600"><span class="font-bold text-slate-800">Execution:</span> Coach jogs, shuffles, and sprints. Kids must mirror exact movements. Whistle means freeze.</p>
+                        
+                        <!-- Culture Cue styling -->
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mt-3 rounded-r-lg">
+                            <p class="text-sm text-blue-900 leading-snug"><span class="font-bold">Culture Cue:</span> "Eyes on me." Don't start speaking until every kid is actively listening. Praise the first kid to freeze on the whistle.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Block 2: Stations Example -->
+                <div class="border-2 border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm print-break">
+                    <div class="bg-slate-100 px-4 py-2 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-black text-slate-700 tracking-tight">3. Station Rotations</span>
+                        <span class="text-xs font-black text-slate-400 bg-slate-200 px-2 py-1 rounded">30 MIN</span>
+                    </div>
+                    
+                    <!-- Station A -->
+                    <div class="p-4 border-b border-slate-100 space-y-3">
+                        <div class="inline-block bg-blue-100 text-blue-800 text-[10px] uppercase tracking-wider font-black px-2 py-1 rounded mb-1">Station 1 • Coach Steve</div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-black text-lg text-slate-900 leading-tight">Two-Line Rapid Fire</h3>
+                        </div>
+                        <p class="text-sm text-slate-600">Split team into two parallel lines (SS and 2B). Both coaches stand near home plate. Hit grounders rapidly alternating lines. Fielder throws to target net and hustles to back of opposite line.</p>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mt-3 rounded-r-lg">
+                            <p class="text-sm text-blue-900 leading-snug"><span class="font-bold">Culture Cue:</span> Hustle standard. Praise the kids who sprint to the back of the opposite line, not just the ones who make a good throw.</p>
+                        </div>
+                    </div>
+
+                    <!-- Station B -->
+                    <div class="p-4 space-y-3 bg-slate-50">
+                        <div class="inline-block bg-orange-100 text-orange-800 text-[10px] uppercase tracking-wider font-black px-2 py-1 rounded mb-1">Station 2 • Coach Assistant</div>
+                        <h3 class="font-black text-lg text-slate-900 leading-tight">Heavy Ball Front Toss</h3>
+                        <p class="text-sm text-slate-600">L-screen 15 feet from home plate. Batter in box, one on deck, rest behind fence. Feeder tosses weighted balls to front hip. Rotate every 10 swings.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Action Button: Add Helper Pivot -->
+            <button class="no-print fixed bottom-6 right-1/2 translate-x-1/2 md:translate-x-0 md:right-auto md:-ml-[100px] ml-0 bg-green-500 text-white rounded-full px-6 py-4 shadow-xl hover:bg-green-600 active:scale-95 transition-all z-50 flex items-center justify-center border-4 border-white whitespace-nowrap" style="margin-left: 120px;">
+                <span class="text-xl leading-none mr-2">🧑‍🏫</span>
+                <span class="font-black tracking-wide">+ Parent Helper</span>
+            </button>
+
+        </div>
+    </div>
+</body>
+</html>
