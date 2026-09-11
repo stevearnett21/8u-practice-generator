@@ -13,7 +13,7 @@
     "execution": "Coach 1 hits a grounder to SS. The second it hits the glove, Coach 2 hits to 2B. Fielder throws to target net and hustles to the back of the opposite line.",
     "focus": "High reps, rapid transitions.",
     "cultureCue": "Hustle standard. Praise the kids who sprint to the back of the opposite line, not just the ones who make a good throw. Effort is the baseline.",
-    "diagram": "/assets/diagrams/rapid-fire.svg"
+    "diagram": "assets/diagrams/rapid-fire.svg"
   },
   {
     "id": "hit-front-toss-net",
@@ -29,7 +29,7 @@
     "execution": "Feeder tosses weighted balls to front hip. Rotate every 10 swings.",
     "focus": "Staying through the baseball without rolling over.",
     "cultureCue": "Active listening. The player on deck must watch the batter and listen to the coach's feedback so they don't make the same mistake.",
-    "diagram": "/assets/diagrams/front-toss-cage.svg"
+    "diagram": "assets/diagrams/front-toss-cage.svg"
   },
   {
     "id": "comp-twenty-one",
@@ -45,6 +45,6 @@
     "execution": "Coach hits random grounders. Scoring: Clean field + good throw to first = 1 point. Bobble but gets the out = 0 points. Ball gets past them or wild throw = -1 point. First player to 5 points wins.",
     "focus": "Live game pressure, making routine plays securely.",
     "cultureCue": "Handling failure. Watch how they react to losing points. Praise players who reset quickly for the next pitch instead of hanging their heads.",
-    "diagram": "/assets/diagrams/twenty-one.svg"
+    "diagram": "assets/diagrams/twenty-one.svg"
   }
 ]
