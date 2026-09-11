@@ -1,4 +1,3 @@
-// Store our database in memory
 let drillsDatabase = [];
 
 // 1. Fetch the JSON data as soon as the app loads
@@ -43,7 +42,20 @@ function toggleDiagram(drillId) {
     }
 }
 
-// 4. HTML Generators for the UI blocks
+// 4. Native Share Feature for Mobile
+function sharePlan() {
+    if (navigator.share) {
+        navigator.share({
+            title: '8U Practice Plan',
+            text: 'Here is the practice plan for today!',
+            url: window.location.href,
+        }).catch(console.error);
+    } else {
+        alert("Sharing is not supported on this browser. Just copy the URL!");
+    }
+}
+
+// 5. HTML Generators for the UI blocks
 function createDrillBlock(blockTitle, timeBlock, drill1, drill2) {
     return `
     <div class="border-2 border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm print-break mb-5">
