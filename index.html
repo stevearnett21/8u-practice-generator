@@ -6,15 +6,14 @@
     <title>8U Practice Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Ensures the background stays gray but the app looks like a phone screen on desktop */
         body { background-color: #f3f4f6; }
         .app-container { min-height: 100vh; background-color: white; max-width: 480px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.05); position: relative; }
         
-        /* Cleans up the UI when exported to PDF or printed */
         @media print {
             .no-print { display: none !important; }
-            .app-container { box-shadow: none; max-width: 100%; }
+            .app-container { box-shadow: none; max-width: 100%; margin: 0; padding: 0; }
             .print-break { page-break-inside: avoid; }
+            body { background-color: white; }
         }
     </style>
 </head>
@@ -22,9 +21,7 @@
 
     <div class="app-container">
         
-        <!-- ========================================== -->
-        <!-- SCREEN 1: SETUP INTERFACE                  -->
-        <!-- ========================================== -->
+        <!-- SCREEN 1: SETUP INTERFACE -->
         <div id="setup-screen" class="p-6 pt-12">
             <header class="text-center mb-10">
                 <div class="text-5xl mb-3">⚾</div>
@@ -33,7 +30,6 @@
             </header>
 
             <div class="space-y-8">
-                <!-- Duration Selector -->
                 <div>
                     <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">Duration</label>
                     <div class="grid grid-cols-3 gap-3">
@@ -43,7 +39,6 @@
                     </div>
                 </div>
 
-                <!-- Location Selector -->
                 <div>
                     <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">Location</label>
                     <div class="grid grid-cols-2 gap-3">
@@ -52,7 +47,6 @@
                     </div>
                 </div>
 
-                <!-- Coach Count Selector -->
                 <div>
                     <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">Coaches Available</label>
                     <div class="grid grid-cols-3 gap-3">
@@ -62,42 +56,39 @@
                     </div>
                 </div>
 
-<!-- Generate Button -->
-<button onclick="generatePlan()" class="w-full mt-4 bg-slate-900 hover:bg-black text-white text-lg font-black py-5 rounded-2xl shadow-xl transition-all active:scale-95">
-    GENERATE PLAN
-</button>
+                <button onclick="generatePlan()" class="w-full mt-4 bg-slate-900 hover:bg-black text-white text-lg font-black py-5 rounded-2xl shadow-xl transition-all active:scale-95">
+                    GENERATE PLAN
+                </button>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- SCREEN 2: THE DUGOUT CARD                  -->
-        <!-- ========================================== -->
+        <!-- SCREEN 2: THE DUGOUT CARD -->
         <div id="dugout-card" class="hidden pb-24">
             
-            <!-- Sticky Timer Header -->
             <div class="sticky top-0 z-40 bg-slate-900 text-white px-5 py-3 shadow-lg flex justify-between items-center no-print">
                 <div>
                     <span class="text-[10px] text-slate-400 block uppercase tracking-widest font-bold">Total Time</span>
-                    <span class="text-xl font-mono font-bold">59:59</span>
+                    <span class="text-xl font-mono font-bold">60:00</span>
                 </div>
                 <div class="text-right">
                     <span class="text-[10px] text-blue-400 block uppercase tracking-widest font-bold">Station Timer</span>
-                    <span class="text-3xl font-mono font-black text-blue-400 leading-none">07:59</span>
+                    <span class="text-3xl font-mono font-black text-blue-400 leading-none">08:00</span>
                 </div>
             </div>
 
-            <!-- Action Bar -->
             <div class="flex justify-between items-center px-5 py-4 bg-slate-100 border-b border-slate-200">
-                <h2 class="font-black text-slate-700">Outdoor • 2 Coaches</h2>
+                <h2 class="font-black text-slate-700">Practice Plan</h2>
                 <div class="space-x-2 no-print flex">
-                    <button class="text-sm bg-white border border-slate-300 text-slate-600 font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center">📤 Share</button>
-                    <button class="text-sm bg-white border border-slate-300 text-slate-600 font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center">🖨️ PDF</button>
+                    <!-- Buttons now wired to native sharing and printing -->
+                    <button onclick="sharePlan()" class="text-sm bg-white border border-slate-300 text-slate-600 font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center">📤 Share</button>
+                    <button onclick="window.print()" class="text-sm bg-white border border-slate-300 text-slate-600 font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center">🖨️ PDF</button>
                 </div>
             </div>
 
             <!-- Practice Blocks Container -->
-<div id="practice-blocks-container" class="p-4 space-y-5"></div>
-            <!-- Floating Action Button: Add Helper Pivot -->
+            <div id="practice-blocks-container" class="p-4 space-y-5"></div>
+
+            <!-- Floating Action Button -->
             <button class="no-print fixed bottom-6 right-1/2 translate-x-1/2 md:translate-x-0 md:right-auto md:-ml-[100px] ml-0 bg-green-500 text-white rounded-full px-6 py-4 shadow-xl hover:bg-green-600 active:scale-95 transition-all z-50 flex items-center justify-center border-4 border-white whitespace-nowrap" style="margin-left: 120px;">
                 <span class="text-xl leading-none mr-2">🧑‍🏫</span>
                 <span class="font-black tracking-wide">+ Parent Helper</span>
@@ -105,6 +96,8 @@
 
         </div>
     </div>
+    
+    <!-- Connects to your logic engine -->
     <script src="app.js"></script>
 </body>
 </html>
